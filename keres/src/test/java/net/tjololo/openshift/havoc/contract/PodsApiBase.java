@@ -45,9 +45,7 @@ public class PodsApiBase {
 
     private ArrayList<Item> getItems(Item... items) {
         ArrayList<Item> itemsList = new ArrayList<>();
-        for(Item item : items) {
-            itemsList.add(item);
-        }
+        Collections.addAll(itemsList, items);
         return itemsList;
     }
 
