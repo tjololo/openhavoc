@@ -1,0 +1,7 @@
+net:
+  tjololo:
+    openshift:
+      havoc:
+        master:
+          url: 'https://10.2.2.2:8443'
+        token: '<TOKEN>'
