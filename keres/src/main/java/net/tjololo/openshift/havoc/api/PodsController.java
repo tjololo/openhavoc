@@ -39,9 +39,9 @@ public class PodsController {
     }
 
     private String getURI(@RequestParam(value = "uri", required = false) String overrideURI) {
-        if (!StringUtils.isEmpty(overrideURI)) {
-            return overrideURI;
+        if (StringUtils.isEmpty(overrideURI)) {
+            return defaultURI;
         }
-        return defaultURI;
+        return overrideURI;
     }
 }
