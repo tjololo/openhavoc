@@ -37,14 +37,18 @@ public class PodsApiBase {
 
     private void setupListMocks() {
         when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "empty")).thenReturn(new KubeResponse("PodList", Collections.emptyList()));
-        ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item(new Metadata("test-pod-1-adfx2", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Running")));
-        items.add(new Item(new Metadata("test-pod-1-build", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Failed")));
+        ArrayList<Item> items = getItems(new Item(new Metadata("test-pod-1-adfx2", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Running")), new Item(new Metadata("test-pod-1-build", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Failed")));
         when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "test")).thenReturn(new KubeResponse("PodList", items));
-        ArrayList<Item> items2 = new ArrayList<>();
-        items2.add(new Item(new Metadata("newbase-pod-1-adfx2", "/api/v1/namespaces/test/pods/newbase-pod-1-adfx2"), new Status("Running")));
-        items2.add(new Item(new Metadata("newbase-pod-1-build", "/api/v1/namespaces/test/pods/newbase-pod-1-build"), new Status("Failed")));
+        ArrayList<Item> items2 = getItems(new Item(new Metadata("newbase-pod-1-adfx2", "/api/v1/namespaces/test/pods/newbase-pod-1-adfx2"), new Status("Running")), new Item(new Metadata("newbase-pod-1-build", "/api/v1/namespaces/test/pods/newbase-pod-1-build"), new Status("Failed")));
         when(kubernetesDiscovery.listPods("https://openshift.org:8443", "test")).thenReturn(new KubeResponse("PodList", items2));
+    }
+
+    private ArrayList<Item> getItems(Item... items) {
+        ArrayList<Item> itemsList = new ArrayList<>();
+        for(Item item : items) {
+            itemsList.add(item);
+        }
+        return itemsList;
     }
 
     private void setupKillMocks() {
