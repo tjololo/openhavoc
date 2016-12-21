@@ -24,7 +24,7 @@ public class PodsController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public PodsController(KubernetesDiscovery kubernetesDiscovery, @Value("net.tjololo.openshift.havoc.token") String defaultURI) {
+    public PodsController(KubernetesDiscovery kubernetesDiscovery, @Value("${net.tjololo.openshift.havoc.master.uri}") String defaultURI) {
         this.kubernetesDiscovery = kubernetesDiscovery;
         this.defaultURI = defaultURI;
     }

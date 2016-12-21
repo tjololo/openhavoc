@@ -16,7 +16,7 @@ public class KubernetesDiscovery {
     private String token;
 
     @Autowired
-    public KubernetesDiscovery(RestTemplate restTemplate, @Value("net.tjololo.openshift.havoc.token")String token) {
+    public KubernetesDiscovery(RestTemplate restTemplate, @Value("${net.tjololo.openshift.havoc.token}")String token) {
         this.restTemplate = restTemplate;
         this.token = token;
     }
