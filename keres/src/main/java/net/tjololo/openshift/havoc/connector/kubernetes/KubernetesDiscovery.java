@@ -1,6 +1,6 @@
 package net.tjololo.openshift.havoc.connector.kubernetes;
 
-import net.tjololo.openshift.havoc.connector.kubernetes.contracts.KubeResponse;
+import net.tjololo.openshift.havoc.connector.kubernetes.contracts.v1.KubeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

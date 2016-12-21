@@ -1,4 +1,4 @@
-package net.tjololo.openshift.havoc.connector.kubernetes.contracts;
+package net.tjololo.openshift.havoc.connector.kubernetes.contracts.v1;
 
 import java.util.List;
 

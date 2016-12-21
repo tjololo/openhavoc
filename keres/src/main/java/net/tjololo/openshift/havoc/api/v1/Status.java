@@ -1,4 +1,4 @@
-package net.tjololo.openshift.havoc.api;
+package net.tjololo.openshift.havoc.api.v1;
 
 /**
  * Created by veg on 21.12.2016.

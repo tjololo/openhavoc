@@ -1,7 +1,8 @@
 package net.tjololo.openshift.havoc.api;
 
+import net.tjololo.openshift.havoc.api.v1.Status;
 import net.tjololo.openshift.havoc.connector.kubernetes.KubernetesDiscovery;
-import net.tjololo.openshift.havoc.connector.kubernetes.contracts.Item;
+import net.tjololo.openshift.havoc.connector.kubernetes.contracts.v1.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PodsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/pods/kill/{namespace}/{podname}", consumes = PODS_JSON_V1, produces = PODS_JSON_V1)
-    public Status killPod(@RequestParam(value = "uri", required = false) String overrideURI, @PathVariable String namespace,@PathVariable String podname) {
+    public Status killPod(@RequestParam(value = "uri", required = false) String overrideURI, @PathVariable String namespace, @PathVariable String podname) {
         return new Status(kubernetesDiscovery.killPod(getURI(overrideURI), namespace, podname));
     }
 
