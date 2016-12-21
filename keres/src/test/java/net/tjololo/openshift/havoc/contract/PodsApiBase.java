@@ -30,6 +30,12 @@ public class PodsApiBase {
 
     @Before
     public void setup() {
+        setupListMocks();
+        setupKillMocks();
+        RestAssuredMockMvc.standaloneSetup(new PodsController(kubernetesDiscovery, "https://10.2.2.2:8443"));
+    }
+
+    private void setupListMocks() {
         when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "empty")).thenReturn(new KubeResponse("PodList", Collections.emptyList()));
         ArrayList<Item> items = new ArrayList<>();
         items.add(new Item(new Metadata("test-pod-1-adfx2", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Running")));
@@ -39,10 +45,12 @@ public class PodsApiBase {
         items2.add(new Item(new Metadata("newbase-pod-1-build", "/api/v1/namespaces/test/pods/newbase-pod-1-build"), new Status("Failed")));
         when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "test")).thenReturn(new KubeResponse("PodList", items));
         when(kubernetesDiscovery.listPods("https://openshift.org:8443", "test")).thenReturn(new KubeResponse("PodList", items2));
+    }
+
+    private void setupKillMocks() {
         when(kubernetesDiscovery.killPod("https://10.2.2.2:8443", "test", "ok-pod-1")).thenReturn(true);
         when(kubernetesDiscovery.killPod("https://10.2.2.2:8443", "test", "fail-pod-1")).thenReturn(false);
         when(kubernetesDiscovery.killPod("https://openshift.org:8443", "other", "other-pod-1")).thenReturn(true);
-        RestAssuredMockMvc.standaloneSetup(new PodsController(kubernetesDiscovery, "https://10.2.2.2:8443"));
     }
 
     @Test
