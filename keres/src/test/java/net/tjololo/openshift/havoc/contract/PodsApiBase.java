@@ -36,11 +36,27 @@ public class PodsApiBase {
     }
 
     private void setupListMocks() {
-        when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "empty")).thenReturn(new KubeResponse("PodList", Collections.emptyList()));
-        ArrayList<Item> items = getItems(new Item(new Metadata("test-pod-1-adfx2", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Running")), new Item(new Metadata("test-pod-1-build", "/api/v1/namespaces/test/pods/test-pod-1-adfx2"), new Status("Failed")));
-        when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "test")).thenReturn(new KubeResponse("PodList", items));
-        ArrayList<Item> items2 = getItems(new Item(new Metadata("newbase-pod-1-adfx2", "/api/v1/namespaces/test/pods/newbase-pod-1-adfx2"), new Status("Running")), new Item(new Metadata("newbase-pod-1-build", "/api/v1/namespaces/test/pods/newbase-pod-1-build"), new Status("Failed")));
-        when(kubernetesDiscovery.listPods("https://openshift.org:8443", "test")).thenReturn(new KubeResponse("PodList", items2));
+        when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "empty"))
+                .thenReturn(new KubeResponse("PodList", Collections.emptyList()));
+        ArrayList<Item> items = getItems(
+                getItem("test-pod-1-adfx2", "Running"),
+                getItem("test-pod-1-build", "Failed")
+        );
+        when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "test"))
+                .thenReturn(new KubeResponse("PodList", items));
+        ArrayList<Item> items2 = getItems(
+                getItem("newbase-pod-1-adfx2", "Running"),
+                getItem("newbase-pod-1-build", "Failed")
+        );
+        when(kubernetesDiscovery.listPods("https://openshift.org:8443", "test"))
+                .thenReturn(new KubeResponse("PodList", items2));
+    }
+
+    private Item getItem(String name, String phase) {
+        return new Item(
+                new Metadata(name, "/api/v1/namespaces/test/pods/" + name),
+                new Status(phase)
+        );
     }
 
     private ArrayList<Item> getItems(Item... items) {
@@ -50,9 +66,12 @@ public class PodsApiBase {
     }
 
     private void setupKillMocks() {
-        when(kubernetesDiscovery.killPod("https://10.2.2.2:8443", "test", "ok-pod-1")).thenReturn(true);
-        when(kubernetesDiscovery.killPod("https://10.2.2.2:8443", "test", "fail-pod-1")).thenReturn(false);
-        when(kubernetesDiscovery.killPod("https://openshift.org:8443", "other", "other-pod-1")).thenReturn(true);
+        when(kubernetesDiscovery.killPod("https://10.2.2.2:8443", "test", "ok-pod-1"))
+                .thenReturn(true);
+        when(kubernetesDiscovery.killPod("https://10.2.2.2:8443", "test", "fail-pod-1"))
+                .thenReturn(false);
+        when(kubernetesDiscovery.killPod("https://openshift.org:8443", "other", "other-pod-1"))
+                .thenReturn(true);
     }
 
     @Test
