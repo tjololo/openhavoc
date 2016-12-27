@@ -16,13 +16,9 @@ org.springframework.cloud.contract.spec.Contract.make {
         body("""
 [
     {
-        "metadata": {
-                        "name": "test-pod-1-adfx2",
-                        "selfLink": "/api/v1/namespaces/test/pods/test-pod-1-adfx2"
-                    },
-        "status": {
-                    "phase": "Running"
-                  }
+        "name": "test-pod-1-adfx2",
+        "kubeselflink": "/api/v1/namespaces/test/pods/test-pod-1-adfx2",
+        "killlink": "/pods/kill/test/test-pod-1-adfx2"
     }
 ]
 """)

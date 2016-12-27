@@ -1,5 +1,6 @@
 package net.tjololo.openshift.havoc.api;
 
+import net.tjololo.openshift.havoc.api.v1.Pod;
 import net.tjololo.openshift.havoc.api.v1.Status;
 import net.tjololo.openshift.havoc.connector.kubernetes.KubernetesDiscovery;
 import net.tjololo.openshift.havoc.connector.kubernetes.contracts.v1.Item;
@@ -30,8 +31,19 @@ public class PodsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/pods/{namespace}", consumes = PODS_JSON_V1, produces = PODS_JSON_V1)
-    public List<Item> getRunningPods(@RequestParam(value = "uri", required = false) String overrideURI, @PathVariable String namespace) {
-        return kubernetesDiscovery.listPods(getURI(overrideURI), namespace).getItems().stream().filter(i -> "Running".equals(i.getStatus().getPhase())).collect(Collectors.toList());
+    public List<Pod> getRunningPods(@RequestParam(value = "uri", required = false) String overrideURI, @PathVariable String namespace) {
+        List<Pod> podList = kubernetesDiscovery.listPods(getURI(overrideURI), namespace).getItems().stream()
+                .filter(i -> "Running".equals(i.getStatus().getPhase()))
+                .map(i ->
+                        new Pod(
+                                i.getMetadata().getName(),
+                                i.getMetadata().getSelfLink(),
+                                "/pods/kill/" + i.getMetadata().getNamespace() + "/" + i.getMetadata().getName()
+                        )
+                )
+                .collect(Collectors.toList());
+        log.info(podList.toString());
+        return podList;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/pods/kill/{namespace}/{podname}", consumes = PODS_JSON_V1, produces = PODS_JSON_V1)

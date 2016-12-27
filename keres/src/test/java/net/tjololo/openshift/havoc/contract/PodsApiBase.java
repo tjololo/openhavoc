@@ -54,7 +54,7 @@ public class PodsApiBase {
 
     private Item getItem(String name, String phase) {
         return new Item(
-                new Metadata(name, "/api/v1/namespaces/test/pods/" + name),
+                new Metadata(name, "/api/v1/namespaces/test/pods/" + name, "test"),
                 new Status(phase)
         );
     }
